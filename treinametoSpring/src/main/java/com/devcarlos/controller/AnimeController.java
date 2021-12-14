@@ -2,6 +2,8 @@ package com.devcarlos.controller;
 
 
 import com.devcarlos.entities.Anime;
+import com.devcarlos.request.AnimePostRequestBody;
+import com.devcarlos.request.AnimePutRequestBody;
 import com.devcarlos.service.AnimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -32,13 +34,13 @@ public class AnimeController {
     @GetMapping("/{id}")
     public ResponseEntity<Anime> fyndById(@PathVariable long id) {
         // return new ResponseEntity<>(animeService.allList(), HttpStatus.OK);
-        return ResponseEntity.ok(animeService.findById(id));
+        return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestExecption(id));
 
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // POSSO FAZER DESSA FORMA OU DA FORMA LA EMBAIXO PAR AMOSTRAR O STATUS
-    public ResponseEntity<Anime> save(@RequestBody Anime anime){
+    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody anime){
        return new ResponseEntity<>(animeService.save(anime),HttpStatus.CREATED);
     }
 
@@ -49,8 +51,8 @@ public class AnimeController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody Anime anime){
-        animeService.replace(anime);
+    public ResponseEntity<Void> replace(@RequestBody AnimePutRequestBody animePutRequestBody){
+        animeService.replace(animePutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
