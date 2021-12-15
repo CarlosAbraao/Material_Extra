@@ -1,5 +1,6 @@
 package com.devcarlos.service;
 
+import com.devcarlos.Exceptions.BadRequestException;
 import com.devcarlos.entities.Anime;
 import com.devcarlos.mapper.AnimeMapper;
 import com.devcarlos.repository.AnimeRepository;
@@ -36,7 +37,7 @@ public class AnimeService {
 // PEGANDO O ANIME PELO ID
     public Anime findByIdOrThrowBadRequestExecption(Long id){
         return animeRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+                .orElseThrow(() -> new BadRequestException( "Anime not found"));
     }
 
 
