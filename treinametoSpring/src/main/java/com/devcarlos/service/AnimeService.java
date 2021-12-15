@@ -1,6 +1,7 @@
 package com.devcarlos.service;
 
 import com.devcarlos.entities.Anime;
+import com.devcarlos.mapper.AnimeMapper;
 import com.devcarlos.repository.AnimeRepository;
 import com.devcarlos.request.AnimePostRequestBody;
 import com.devcarlos.request.AnimePutRequestBody;
@@ -24,6 +25,14 @@ public class AnimeService {
         return animeRepository.findAll();
     }
 
+
+
+    // LISTANDO TODOS ANIMES
+    public List<Anime> findByName(String name) {
+
+        return animeRepository.findByName(name);
+    }
+
 // PEGANDO O ANIME PELO ID
     public Anime findByIdOrThrowBadRequestExecption(Long id){
         return animeRepository.findById(id)
@@ -32,8 +41,7 @@ public class AnimeService {
 
 
     public Anime save(AnimePostRequestBody animePostRequestBody) {
-     Anime anime = Anime.builder().name(animePostRequestBody.getName()).build();
-     return animeRepository.save(anime);
+     return animeRepository.save(AnimeMapper.INSTANCE.toAnime(animePostRequestBody));
 
 
 
@@ -44,11 +52,9 @@ public class AnimeService {
     }
 
     public void replace(AnimePutRequestBody animePutRequestBody){
-        findByIdOrThrowBadRequestExecption(animePutRequestBody.getId());
-        Anime anime = Anime.builder()
-                .id(animePutRequestBody.getId())
-                .name(animePutRequestBody.getName())
-                .build();
+        Anime savedAnime = findByIdOrThrowBadRequestExecption(animePutRequestBody.getId());
+        Anime anime = AnimeMapper.INSTANCE.toAnime(animePutRequestBody);
+        anime.setId(savedAnime.getId());
         animeRepository.save(anime);
     }
 }

@@ -38,6 +38,13 @@ public class AnimeController {
 
     }
 
+    @GetMapping("/{name}")
+    public ResponseEntity<List<Anime>> fyndByName(@RequestParam String name) {
+        // return new ResponseEntity<>(animeService.allList(), HttpStatus.OK);
+        return ResponseEntity.ok(animeService.findByName(name));
+
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // POSSO FAZER DESSA FORMA OU DA FORMA LA EMBAIXO PAR AMOSTRAR O STATUS
     public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody anime){
