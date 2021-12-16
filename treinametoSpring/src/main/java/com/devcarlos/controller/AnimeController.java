@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -47,7 +48,7 @@ public class AnimeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // POSSO FAZER DESSA FORMA OU DA FORMA LA EMBAIXO PAR AMOSTRAR O STATUS
-    public ResponseEntity<Anime> save(@RequestBody AnimePostRequestBody anime){
+    public ResponseEntity<Anime> save(@RequestBody @Valid AnimePostRequestBody anime){
        return new ResponseEntity<>(animeService.save(anime),HttpStatus.CREATED);
     }
 
